@@ -1,0 +1,9 @@
+---
+
+front:
+  hosts:
+    frontal-dev-1: {}
+
+database:
+  hosts:
+    bdd-dev-1: {}

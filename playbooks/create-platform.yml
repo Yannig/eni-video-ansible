@@ -1,0 +1,25 @@
+---
+
+- name: "Create container"
+  hosts: localhost
+  gather_facts: no
+  tasks:
+    - name: "Create Network"
+      docker_network:
+        name: "video-eni"
+
+    - name: "Create front hosts"
+      docker_container:
+        name: "{{item}}"
+        hostname: "{{ item }}.video-eni"
+        image: "centos/systemd"
+        privileged: yes
+      loop: "{{ groups['front'] }}"
+
+    - name: "Create database hosts"
+      docker_container:
+        name: "{{item}}"
+        hostname: "{{ item }}.video-eni"
+        image: "solita/ubuntu-systemd"
+        privileged: yes
+      loop: "{{ groups['database'] }}"
