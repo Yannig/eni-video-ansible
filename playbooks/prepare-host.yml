@@ -2,8 +2,6 @@
 
 - name: "Install Python"
   hosts: ["database"]
-  vars:
-    ansible_connection: "docker"
   gather_facts: no
   tasks:
     - name: "Install Python"
@@ -13,8 +11,6 @@
 
 - name: "Prepare host"
   hosts: ["front", "database"]
-  vars:
-    ansible_connection: "docker"
   gather_facts: yes
   gather_subset: "min"
   tasks:
