@@ -16,6 +16,17 @@
 
     - name: "Install PHP 7 from remi repo"
       package:
-        name: "php"
+        name: "php,php,php-mcrypt,php-gd,php-mysqlnd"
         enablerepo: "remi-php73"
         state: present
+
+    - name: "Install Apache"
+      package:
+        name: "httpd"
+        state: present
+
+    - name: "Start Apache"
+      service:
+        name: "httpd"
+        enabled: yes
+        state: started
