@@ -11,5 +11,8 @@ install-mariadb:
 install-php:
 	ansible-playbook -i inventory/dev.yml playbooks/php.yml
 
+install-wordpress:
+	ansible-playbook -i inventory/dev.yml playbooks/install-wordpress.yml
+
 clean:
 	rm playbooks/*.retry
