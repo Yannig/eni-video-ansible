@@ -23,3 +23,11 @@
         image: "solita/ubuntu-systemd"
         privileged: yes
       loop: "{{ groups['database'] }}"
+
+    - name: "Create lb hosts"
+      docker_container:
+        name: "{{item}}"
+        hostname: "{{ item }}.video-eni"
+        image: "centos/systemd"
+        privileged: yes
+      loop: "{{ groups['lb']|d([]) }}"

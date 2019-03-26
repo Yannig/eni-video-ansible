@@ -8,5 +8,8 @@ prepare-host:
 install-mariadb:
 	ansible-playbook -i inventory/dev.yml playbooks/mariadb.yml
 
+install-php:
+	ansible-playbook -i inventory/dev.yml playbooks/php.yml
+
 clean:
 	rm playbooks/*.retry
