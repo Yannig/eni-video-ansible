@@ -1,0 +1,16 @@
+---
+
+- name: "Configure MariaDB"
+  hosts: ["database"]
+  gather_facts: no
+  tasks:
+    - name: "Install MariaDB"
+      package:
+        name: "python-MySQL"
+        state: present
+
+    - name: "Activate MariaDB"
+      service:
+        name: mysql
+        enabled: yes
+        state: started
