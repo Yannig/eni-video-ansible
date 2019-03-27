@@ -41,6 +41,7 @@
         creates: "{{ wp_path }}/wp-config.php"
 
     - name: "Install WP"
+      run_once: yes
       command: >
         wp-cli core install
         --allow-root --no-color --path='{{ wp_path }}'
