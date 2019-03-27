@@ -25,6 +25,9 @@ configure-mariadb:
 install-wordpress:
 	ansible-playbook -i $(INVENTORY) playbooks/install-wordpress.yml
 
+prepare-wordpress:
+	ansible-playbook -i $(INVENTORY) playbooks/prepare-wordpress.yml
+
 clean:
 	rm playbooks/*.retry
 
