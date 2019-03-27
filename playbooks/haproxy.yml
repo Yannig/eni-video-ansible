@@ -1,11 +1,16 @@
 ---
 
 - name: "Install Haproxy"
-  hosts: ["lb"]
-  gather_facts: no
+  hosts: "lb"
+  gather_facts: yes
+  handlers:
+    - name: "Restart haproxy"
+      service:
+        name: "haproxy"
+        state: restarted
   tasks:
     - name: "Install Haproxy"
-      package:
+      apt:
         name: "haproxy"
         state: present
 
@@ -14,3 +19,9 @@
         name: "haproxy"
         enabled: yes
         state: started
+
+    - name: "Configure haproxy"
+      template:
+        src: "haproxy.cfg.j2"
+        dest: "/etc/haproxy/haproxy.cfg"
+      notify: "Restart haproxy"
