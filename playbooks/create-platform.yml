@@ -6,28 +6,34 @@
   tasks:
     - name: "Create Network"
       docker_network:
-        name: "video-eni"
+        name: "{{ domain_name }}"
 
     - name: "Create front hosts"
       docker_container:
         name: "{{item}}"
-        hostname: "{{ item }}.video-eni"
+        hostname: "{{ item }}.{{ domain_name }}"
         image: "centos/systemd"
         privileged: yes
+        networks:
+          - name: "{{ domain_name }}"
       loop: "{{ groups['front'] }}"
 
     - name: "Create database hosts"
       docker_container:
         name: "{{item}}"
-        hostname: "{{ item }}.video-eni"
+        hostname: "{{ item }}.{{ domain_name }}"
         image: "solita/ubuntu-systemd"
         privileged: yes
+        networks:
+          - name: "{{ domain_name }}"
       loop: "{{ groups['database'] }}"
 
     - name: "Create lb hosts"
       docker_container:
         name: "{{item}}"
-        hostname: "{{ item }}.video-eni"
+        hostname: "{{ item }}.{{ domain_name }}"
         image: "centos/systemd"
         privileged: yes
+        networks:
+          - name: "{{ domain_name }}"
       loop: "{{ groups['lb']|d([]) }}"
