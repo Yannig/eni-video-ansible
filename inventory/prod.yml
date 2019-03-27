@@ -2,7 +2,8 @@
 
 front:
   hosts:
-    frontal-prod: {}
+    frontal-prod-1: {}
+    frontal-prod-2: {}
 
 database:
   hosts:
