@@ -11,6 +11,9 @@ install-mariadb:
 install-php:
 	ansible-playbook -i inventory/dev.yml playbooks/php.yml
 
+configure-mariadb:
+	ansible-playbook -i inventory/dev.yml playbooks/configure-mariadb.yml
+
 install-wordpress:
 	ansible-playbook -i inventory/dev.yml playbooks/install-wordpress.yml
 

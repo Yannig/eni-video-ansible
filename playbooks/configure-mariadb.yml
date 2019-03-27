@@ -4,13 +4,25 @@
   hosts: ["database"]
   gather_facts: no
   tasks:
-    - name: "Install MariaDB"
+    - name: "Install Python Plugin"
       package:
-        name: "python-MySQL"
+        name: "python-mysqldb"
         state: present
 
-    - name: "Activate MariaDB"
-      service:
-        name: mysql
-        enabled: yes
-        state: started
+    - name: "Configure DB"
+      mysql_db:
+        name: "wordpress"
+        state: present
+
+    - name: "Create Wordpress user"
+      mysql_user:
+        name: "wordpress"
+        password: "wordpress"
+        priv: 'wordpress.*:ALL'
+        state: present
+
+    - name: "Set remote access to Wordpress user"
+      mysql_user:
+        name: "wordpress"
+        host_all: yes
+        state: present
