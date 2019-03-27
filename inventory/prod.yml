@@ -1,0 +1,13 @@
+---
+
+front:
+  hosts:
+    frontal-prod: {}
+
+database:
+  hosts:
+    bdd-prod: {}
+
+lb:
+  hosts:
+    lb-prod: {}
