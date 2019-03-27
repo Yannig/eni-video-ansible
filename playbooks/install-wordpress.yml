@@ -1,10 +1,10 @@
 ---
 
 - name: "Install Wordpress"
-  hosts: front
-  gather_facts: no
+  hosts: front[0]
+  gather_facts: "network"
   vars:
-    wp_path: "/var/www/html/wordpress"
+    wp_path: "/var/www/html"
   tasks:
 
     - name: "Install Mariadb client"
@@ -38,3 +38,15 @@
         --dbhost='{{ wp_db_host }}'
       args:
         creates: "{{ wp_path }}/wp-config.php"
+
+    - name: "Install WP"
+      command: >
+        wp-cli core install
+        --allow-root --no-color --path='{{ wp_path }}'
+        --title='Vidéo ENI' --url=http://{{ inventory_hostname }}/
+        --admin_name='admin'
+        --admin_email='admin@editions-eni.fr'
+        --admin_password='Adm1nWordPr3ss'
+        --skip-email
+      register: _
+    - debug: var=_
