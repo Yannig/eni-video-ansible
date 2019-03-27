@@ -1,6 +1,6 @@
 ---
 
-- name: "Create container"
+- name: "Create containers"
   hosts: localhost
   gather_facts: no
   tasks:
@@ -32,7 +32,7 @@
       docker_container:
         name: "{{item}}"
         hostname: "{{ item }}.{{ domain_name }}"
-        image: "centos/systemd"
+        image: "solita/ubuntu-systemd"
         privileged: yes
         networks:
           - name: "{{ domain_name }}"
