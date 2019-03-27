@@ -3,16 +3,38 @@
 - name: "Install Wordpress"
   hosts: front
   gather_facts: no
+  vars:
+    wp_path: "/var/www/html/wordpress"
   tasks:
-    - name: "Download Wordpress"
-      get_url:
-        url: "https://fr.wordpress.org/latest-fr_FR.tar.gz"
-        dest: "{{ playbook_dir }}/latest-fr_FR.tar.gz"
-      delegate_to: localhost
 
-    - name: "Unarchive Wordpress"
-      unarchive:
-        src: "{{ playbook_dir }}/latest-fr_FR.tar.gz"
-        dest: "/var/www/html"
-        owner: "apache"
-        group: "apache"
+    - name: "Install Mariadb client"
+      package:
+        name: "mariadb"
+        state: present
+
+    - name: "Install wp-cli"
+      get_url:
+        url: https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
+        dest: "/usr/local/bin/wp-cli"
+        owner: root
+        group: root
+        mode: 0755
+
+    - name: "Download WP"
+      command: >
+        wp-cli core download
+        --allow-root --no-color --path='{{ wp_path }}'
+        --locale='fr_FR'
+      args:
+        creates: "{{ wp_path }}/wp-load.php"
+
+    - name: "Configure WP"
+      command: >
+        wp-cli core config
+        --allow-root --no-color --path='{{ wp_path }}'
+        --dbname='{{ wp_db_name }}'
+        --dbuser='{{ wp_db_username }}'
+        --dbpass='{{ wp_db_password }}'
+        --dbhost='{{ wp_db_host }}'
+      args:
+        creates: "{{ wp_path }}/wp-config.php"
