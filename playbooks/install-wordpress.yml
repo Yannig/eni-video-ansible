@@ -5,6 +5,7 @@
   gather_facts: "network"
   vars:
     wp_path: "/var/www/html"
+    wp_url: "{{ inventory_hostname }}"
   tasks:
 
     - name: "Install Mariadb client"
@@ -43,10 +44,10 @@
       command: >
         wp-cli core install
         --allow-root --no-color --path='{{ wp_path }}'
-        --title='Vidéo ENI' --url=http://{{ inventory_hostname }}/
+        --title='Vidéo ENI' --url=http://{{ wp_url }}/
         --admin_name='admin'
         --admin_email='admin@editions-eni.fr'
         --admin_password='Adm1nWordPr3ss'
         --skip-email
+      changed_when: "'installed successfully.' in _.stdout"
       register: _
-    - debug: var=_
