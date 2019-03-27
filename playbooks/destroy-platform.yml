@@ -1,0 +1,15 @@
+---
+
+- name: "Destroy containers"
+  hosts: localhost
+  gather_facts: no
+  tasks:
+    - name: "Delete front hosts"
+      docker_container:
+        name: "{{item}}"
+        state: absent
+      loop: "{{ groups['all'] }}"
+
+    - name: "Delete Network"
+      docker_network:
+        name: "{{ domain_name }}"
