@@ -3,10 +3,15 @@
 - name: "Install MariaDB"
   hosts: ["database"]
   gather_facts: no
+  handlers:
+    - name: "Restart MariaDB"
+      service:
+        name: mysql
+        state: restarted
   tasks:
     - name: "Install MariaDB"
       package:
-        name: "mariadb-server"
+        name: "mariadb-server,python-mysqldb"
         state: present
 
     - name: "Activate MariaDB"
@@ -14,3 +19,10 @@
         name: mysql
         enabled: yes
         state: started
+
+    - name: "Listen on 0.0.0.0"
+      lineinfile:
+        path: "/etc/mysql/mariadb.conf.d/50-server.cnf"
+        regexp: '^bind-address'
+        line: "bind-address            = 0.0.0.0"
+      notify: "Restart MariaDB"

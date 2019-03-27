@@ -4,25 +4,16 @@
   hosts: ["database"]
   gather_facts: no
   tasks:
-    - name: "Install Python Plugin"
-      package:
-        name: "python-mysqldb"
-        state: present
-
     - name: "Configure DB"
       mysql_db:
-        name: "wordpress"
+        name: "{{ wp_db_name }}"
         state: present
 
     - name: "Create Wordpress user"
       mysql_user:
-        name: "wordpress"
-        password: "wordpress"
-        priv: 'wordpress.*:ALL'
+        name: "{{ wp_db_username }}"
+        password: "{{ wp_db_password }}"
+        host: "{{ item }}.{{ domain_name }}"
+        priv: '{{ wp_db_name }}.*:ALL'
         state: present
-
-    - name: "Set remote access to Wordpress user"
-      mysql_user:
-        name: "wordpress"
-        host_all: yes
-        state: present
+      loop: "{{ groups['front'] }}"
