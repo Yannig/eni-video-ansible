@@ -6,3 +6,5 @@ wp_db_username: "wordpress"
 wp_db_password: "wordpress"
 wp_db_name: "wordpress"
 wp_db_host: "{{ groups['database'][0] }}"
+
+wp_url: "{{ inventory_hostname }}"

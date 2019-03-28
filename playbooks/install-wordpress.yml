@@ -1,17 +1,11 @@
 ---
 
 - name: "Install Wordpress"
-  hosts: front[0]
+  hosts: front
   gather_facts: "network"
   vars:
     wp_path: "/var/www/html"
-    wp_url: "{{ inventory_hostname }}"
   tasks:
-
-    - name: "Install Mariadb client"
-      package:
-        name: "mariadb"
-        state: present
 
     - name: "Install wp-cli"
       get_url:
