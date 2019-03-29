@@ -14,14 +14,16 @@
         name: "haproxy"
         state: present
 
-    - name: "Start Haproxy"
-      service:
-        name: "haproxy"
-        enabled: yes
-        state: started
-
     - name: "Configure haproxy"
       template:
         src: "haproxy.cfg.j2"
         dest: "/etc/haproxy/haproxy.cfg"
       notify: "Restart haproxy"
+
+    - meta: flush_handlers
+
+    - name: "Start Haproxy"
+      service:
+        name: "haproxy"
+        enabled: yes
+        state: started
