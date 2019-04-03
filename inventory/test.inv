@@ -1,0 +1,10 @@
+localhost
+
+[front]
+frontal-dev-1 ansible_host=172.17.0.3
+
+[database]
+bdd-dev-1 ansible_host=172.17.0.2
+
+[front:vars]
+ansible_user=root
