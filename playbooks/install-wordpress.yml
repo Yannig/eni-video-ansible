@@ -2,10 +2,15 @@
 
 - name: "Install Wordpress"
   hosts: front
-  gather_facts: "network"
+  gather_facts: no
   vars:
     wp_path: "/var/www/html"
   tasks:
+
+    - name: "Install mysql"
+      package:
+        name: "mariadb"
+        state: present
 
     - name: "Install wp-cli"
       get_url:
@@ -13,7 +18,7 @@
         dest: "/usr/local/bin/wp-cli"
         owner: root
         group: root
-        mode: 0755
+        mode: "0755"
 
     - name: "Download WP"
       command: >
