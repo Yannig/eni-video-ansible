@@ -2,9 +2,9 @@
 
 - name: "Install Haproxy"
   hosts: "lb"
-  gather_facts: yes
+  gather_facts: no
   handlers:
-    - name: "Restart haproxy"
+    - name: "Restart Haproxy"
       service:
         name: "haproxy"
         state: restarted
@@ -14,11 +14,11 @@
         name: "haproxy"
         state: present
 
-    - name: "Configure haproxy"
+    - name: "Configuration Haproxy"
       template:
         src: "haproxy.cfg.j2"
         dest: "/etc/haproxy/haproxy.cfg"
-      notify: "Restart haproxy"
+      notify: "Restart Haproxy"
 
     - meta: flush_handlers
 
